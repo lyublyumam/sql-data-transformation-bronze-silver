@@ -27,4 +27,4 @@ SQL transformation script that moves and cleans energy market data from the Bron
 ## Files
 - `transformation.sql` — main transformation script
 - `bronze_setup.sql` — creates Bronze table and loads test data
-- `solution_note.md` — solution notes and decision log
+- `solution_notes.md` — solution notes and decision log
