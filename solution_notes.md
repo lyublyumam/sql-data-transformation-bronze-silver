@@ -1,19 +1,13 @@
-Písemné zdůvodnění:
+# Solution Notes
 
+## 1. Splitting the period and decimal separator
+The `obdobi` column was split using the `SPLIT_PART` function — the first part before the dash was used for year, the second part for half-year. One row contained a slash instead of a dash (`2026/02`), so I added a `REPLACE` function before splitting to normalize the format. The decimal comma issue was also solved using `REPLACE` — replacing the comma with a dot before casting to decimal.
 
+## 2. Idempotency
+Idempotency was achieved by adding `DELETE FROM TRZBY` at the beginning of the script. Before each INSERT run, the Silver table is cleared and fully reloaded — since the Silver layer is derived from Bronze, a full reload is safe and straightforward.
 
-1. Rozklad období a desetinná čárka
+## 3. Problematic rows
+The sample data contained several problematic rows: a row with an invalid `obdobi` format (`2026/02`), a row with whitespace around the value in `pocet_om`, empty strings in `dodavkaMwh` and `typZakaznika`, and a NULL value in `trzbyRegulovanaSlozka`. Empty strings and NULLs were handled using `NULLIF`, whitespace using `TRIM`. Soft-deleted rows were excluded using `WHERE isDeleted = false`. The task did not explicitly specify how to handle an empty string in `typZakaznika` — I decided to convert it to NULL using `NULLIF`, as an empty string is not a valid customer type code.
 
-Sloupec `obdobi` jsem rozdělil pomocí funkce `SPLIT_PART` — pro rok jsem vzal první část před pomlčkou, pro pololetí druhou část. V datech byl problematický řádek kde `obdobi` používalo lomítko místo pomlčky (`2026/02`), proto jsem před rozdělením 	přidal funkci `REPLACE` která lomítko nahradila pomlčkou. Desetinnou čárku jsem také řešil pomocí `REPLACE` — čárku jsem nahradil tečkou před přetypováním na decimal.
-
-2. Opakovatelnost
-
-Opakovatelnost bez duplicit jsem zajistil příkazem `DELETE FROM TRZBY` na začátku skriptu. Před každým spuštěním INSERT se silver tabulka vyprázdní a naplní znovu — silver vrstva je odvozená z bronze, takže její kompletní přepočet je bezpečný a přehledný.
-
-3. Problematické řádky
-
-Ve vzorku jsem narazil na několik problematických řádků: řádek se špatným formátem `obdobi` (`2026/02`), řádek s mezerami kolem hodnoty ve sloupci `pocet_om`, prázdné řetězce v `dodavkaMwh` a `typZakaznika`, a NULL hodnotu v `trzbyRegulovanaSlozka`. Prázdné řetězce a NULL jsem ošetřil pomocí `NULLIF`, mezery pomocí `TRIM`. Řádek s `isDeleted = true` jsem vyfiltroval podmínkou `WHERE isDeleted = false`. V zadání nebylo jednoznačně určeno jak naložit s řádkem kde typZakaznika je prázdný řetězec — rozhodl jsem se ho převést na NULL pomocí NULLIF, protože prázdný řetězec není platná hodnota kódu zákazníka.
-
-4. Použití AI
-
-AI jsem použil jako pomoc při získávání funkcí které jsem dříve nepoužíval a na kontrolu správnosti postupu. Konkrétní případ kde AI navrhla špatné řešení byl sloupec `pocet_om` — AI navrhla `CAST na integer`, což nefungovalo kvůli hodnotě `150.0`. Musel jsem přidat mezikrok přes `decimal` — nejdřív přetypovat na decimal a pak na integer.
+## 4. Use of AI
+AI was used as assistance in finding functions I had not used before and to verify the correctness of my approach. One case where AI suggested an incorrect solution was the `pocet_om` column — AI suggested a direct `CAST to integer`, which failed due to the value `150.0`. I had to add an intermediate step through `decimal` — first casting to decimal, then to integer.
