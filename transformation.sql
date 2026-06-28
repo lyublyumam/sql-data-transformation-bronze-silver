@@ -1,6 +1,6 @@
 -- =====================================================================
---  Transformace Bronze -> Silver
---  Zdroj: brz_mv_e2_trzby | Cíl: TRZBY
+--  Transformation Bronze -> Silver
+--  Source: brz_mv_e2_trzby | Target: TRZBY
 -- =====================================================================
 
 delete from TRZBY;
@@ -24,5 +24,3 @@ select
 	cast(replace(trzbyostatnipoplatky, ',', '.') as decimal(18,2)) 
 from brz_mv_e2_trzby
 where isdeleted = false;
-
-select * from TRZBY;
