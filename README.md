@@ -13,7 +13,7 @@ SQL transformation script that moves and cleans energy market data from the Bron
 - DBeaver
 
 ## How to Run
-1. Create the Bronze table and load test data: `bronze_data.sql`
+1. Create the Bronze table and load test data: `bronze_setup.sql`
 2. Create the Silver table (`TRZBY`) using the provided DDL
 3. Run the transformation script: `transformation.sql`
 
@@ -26,4 +26,4 @@ SQL transformation script that moves and cleans energy market data from the Bron
 
 ## Files
 - `transformation.sql` — main transformation script
-- `bronze_data.sql` — sample source data
+- `bronze_setup.sql` — creates Bronze table and loads test data
