@@ -1,13 +1,14 @@
 -- =====================================================================
---  Testovací data pro úkol Bronze -> Silver
---  Tabulka: brz_mv_e2_trzby  (zdroj, bronze)
+--  Test data for the Bronze -> Silver task
+--  Table: brz_mv_e2_trzby (source, bronze)
 --
---  Toto je vzorek "surových" dat tak, jak přišla od dodavatelů do bronzové
---  vrstvy. Data nejsou vyčištěná. Počítej s tím, že některé řádky mohou být
---  problematické -- tvoje řešení by se s nimi mělo vypořádat rozumně.
+--  This is a sample of "raw" data as received from suppliers into the
+--  Bronze layer. Data is not cleaned. Some rows may be intentionally
+--  problematic -- your solution should handle them reasonably.
 --
---  Skript předpokládá, že tabulka brz_mv_e2_trzby existuje. Jednoduchá
---  definice (vše jako text, jak odpovídá bronzové vrstvě) je níže zakomentovaná.
+--  The script assumes the table brz_mv_e2_trzby already exists.
+--  A simple definition (everything as text, as expected in the Bronze
+--  layer) is commented out below.
 -- =====================================================================
 
 -- CREATE TABLE brz_mv_e2_trzby (
